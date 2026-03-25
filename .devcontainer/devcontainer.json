@@ -1,11 +1,6 @@
 {
   "name": "LCSS PHP Project",
-  "image": "mcr.microsoft.com/devcontainers/php:1-8.1-bullseye",
-  "features": {
-    "ghcr.io/devcontainers/features/mysql:1": {
-      "version": "8.0"
-    }
-  },
+  "image": "mcr.microsoft.com/devcontainers/base:alpine",
   "forwardPorts": [8080],
   "portsAttributes": {
     "8080": {
