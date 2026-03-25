@@ -5,11 +5,11 @@ PROJECT_DIR=$(pwd)
 echo "==> Project: $PROJECT_DIR"
 
 echo "==> Starting MySQL..."
-service mysql start || true
+sudo service mysql start || true
 
 echo "==> Waiting for MySQL..."
-for i in {1..30}; do
-  if mysqladmin ping -u root --silent 2>/dev/null; then
+for i in {1..20}; do
+  if sudo mysqladmin ping --silent 2>/dev/null; then
     echo "MySQL ready."
     break
   fi
@@ -18,23 +18,18 @@ for i in {1..30}; do
 done
 
 echo "==> Importing database..."
-mysql -u root < "$PROJECT_DIR/database.sql"
+sudo mysql < "$PROJECT_DIR/database.sql"
 
-echo "==> Configuring Apache on port 8080..."
-cat > /etc/apache2/sites-available/000-default.conf <<EOF
-<VirtualHost *:8080>
-    DocumentRoot $PROJECT_DIR
-    <Directory $PROJECT_DIR>
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-</VirtualHost>
-EOF
+echo "==> Pointing Apache to project..."
+sudo chmod a+x "$PROJECT_DIR"
+sudo rm -rf /var/www/html
+sudo ln -s "$PROJECT_DIR" /var/www/html
 
-sed -i 's/^Listen 80$/Listen 8080/' /etc/apache2/ports.conf
-a2enmod rewrite
-service apache2 restart || apache2ctl restart || true
+echo "==> Configuring Apache port 8080..."
+sudo sed -i 's/^Listen 80$/Listen 8080/' /etc/apache2/ports.conf
+sudo sed -i 's/:80>/:8080>/' /etc/apache2/sites-available/000-default.conf
+sudo a2enmod rewrite
+sudo service apache2 restart || true
 
 echo ""
 echo "✅ Done! Site at http://localhost:8080"
