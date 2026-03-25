@@ -1,6 +1,6 @@
  <?php
 // Create connection
-$conn = new mysqli("localhost", "root","","productdb");
+$conn = new mysqli("localhost", "root","","Productdb");
 
 // Check connection
 if ($conn->connect_error) {
