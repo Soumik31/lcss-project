@@ -1,9 +1,8 @@
 {
   "name": "LCSS PHP Project",
-  "image": "mcr.microsoft.com/devcontainers/php:8.1-apache",
-  "features": {
-    "ghcr.io/devcontainers/features/mysql:1": {}
-  },
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "web",
+  "workspaceFolder": "/var/www/html",
   "forwardPorts": [8080, 3306],
   "portsAttributes": {
     "8080": {
