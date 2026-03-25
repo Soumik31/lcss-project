@@ -2,9 +2,7 @@
   "name": "LCSS PHP Project",
   "image": "mcr.microsoft.com/devcontainers/php:8.1-apache",
   "features": {
-    "ghcr.io/devcontainers/features/mysql:1": {
-      "version": "latest"
-    }
+    "ghcr.io/devcontainers/features/mysql:1": {}
   },
   "forwardPorts": [8080, 3306],
   "portsAttributes": {
@@ -17,8 +15,7 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "bmewburn.vscode-intelephense-client",
-        "formulahendry.auto-rename-tag"
+        "bmewburn.vscode-intelephense-client"
       ]
     }
   }

@@ -5,11 +5,12 @@ PROJECT_DIR=$(pwd)
 echo "==> Project directory: $PROJECT_DIR"
 
 echo "==> Starting MySQL..."
-sudo service mysql start || true
+# The mysql devcontainer feature uses mysqld_safe or mysqld directly
+mysqld_safe --daemonize 2>/dev/null || mysqld --daemonize 2>/dev/null || true
 
 echo "==> Waiting for MySQL to be ready..."
 for i in {1..30}; do
-  if sudo mysqladmin ping --silent 2>/dev/null; then
+  if mysqladmin ping -u root --silent 2>/dev/null; then
     echo "MySQL is up."
     break
   fi
@@ -18,11 +19,9 @@ for i in {1..30}; do
 done
 
 echo "==> Importing database..."
-sudo mysql -u root < "$PROJECT_DIR/database.sql"
+mysql -u root < "$PROJECT_DIR/database.sql"
 
-echo "==> Configuring Apache..."
-
-# Write virtual host config
+echo "==> Configuring Apache virtual host..."
 sudo tee /etc/apache2/sites-available/000-default.conf > /dev/null <<EOF
 <VirtualHost *:8080>
     DocumentRoot $PROJECT_DIR
@@ -36,14 +35,13 @@ sudo tee /etc/apache2/sites-available/000-default.conf > /dev/null <<EOF
 </VirtualHost>
 EOF
 
-# Update Apache to listen on 8080 instead of 80
+echo "==> Setting Apache to listen on port 8080..."
 sudo sed -i 's/^Listen 80$/Listen 8080/' /etc/apache2/ports.conf
 
-# Enable rewrite module
 sudo a2enmod rewrite
 
 echo "==> Starting Apache..."
-sudo service apache2 restart
+sudo apachectl start || sudo apachectl restart
 
 echo ""
 echo "✅ Done! Site is at http://localhost:8080"
