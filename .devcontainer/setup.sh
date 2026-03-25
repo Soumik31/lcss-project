@@ -4,12 +4,16 @@ set -e
 PROJECT_DIR=$(pwd)
 echo "==> Project: $PROJECT_DIR"
 
-echo "==> Starting MySQL..."
-sudo service mysql start || true
+echo "==> Starting MySQL as mysql user..."
+sudo mysqld_safe --daemonize --user=mysql 2>/dev/null || \
+sudo mysqld --daemonize --user=mysql 2>/dev/null || \
+mysqld_safe --daemonize 2>/dev/null || true
+
+sleep 5
 
 echo "==> Waiting for MySQL..."
 for i in {1..20}; do
-  if sudo mysqladmin ping --silent 2>/dev/null; then
+  if mysqladmin ping --silent 2>/dev/null || sudo mysqladmin ping --silent 2>/dev/null; then
     echo "MySQL ready."
     break
   fi
@@ -18,18 +22,19 @@ for i in {1..20}; do
 done
 
 echo "==> Importing database..."
-sudo mysql < "$PROJECT_DIR/database.sql"
+mysql -u root < "$PROJECT_DIR/database.sql" 2>/dev/null || \
+sudo mysql -u root < "$PROJECT_DIR/database.sql"
 
 echo "==> Pointing Apache to project..."
 sudo chmod a+x "$PROJECT_DIR"
 sudo rm -rf /var/www/html
 sudo ln -s "$PROJECT_DIR" /var/www/html
 
-echo "==> Configuring Apache port 8080..."
+echo "==> Configuring Apache on port 8080..."
 sudo sed -i 's/^Listen 80$/Listen 8080/' /etc/apache2/ports.conf
 sudo sed -i 's/:80>/:8080>/' /etc/apache2/sites-available/000-default.conf
 sudo a2enmod rewrite
-sudo service apache2 restart || true
+sudo apachectl restart 2>/dev/null || sudo apache2ctl restart 2>/dev/null || true
 
 echo ""
 echo "✅ Done! Site at http://localhost:8080"
