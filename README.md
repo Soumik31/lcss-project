@@ -6,7 +6,7 @@ A PHP-based e-commerce web application built as part of a Master's degree projec
 
 ## Run in GitHub Codespaces (no install needed)
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Soumik31/lcsslab.github.io)
 
 1. Click the button above (or go to the repo on GitHub → green "Code" button → "Codespaces" tab → "Create codespace")
 2. Wait ~2 minutes for the environment to build
