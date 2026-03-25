@@ -1,20 +1,33 @@
 #!/bin/bash
 set -e
 
-echo "==> Waiting for MySQL to be ready..."
-for i in {1..30}; do
-  if mysql -h db -u root -e "SELECT 1" &>/dev/null; then
-    echo "MySQL is up."
+PROJECT_DIR=$(pwd)
+echo "==> Project: $PROJECT_DIR"
+
+echo "==> Starting MySQL..."
+mysqld_safe --daemonize 2>/dev/null || true
+sleep 5
+
+echo "==> Waiting for MySQL..."
+for i in {1..20}; do
+  if mysqladmin ping --silent 2>/dev/null; then
+    echo "MySQL ready."
     break
   fi
-  echo "Waiting... ($i)"
-  sleep 3
+  sleep 2
 done
 
 echo "==> Importing database..."
-mysql -h db -u root < /var/www/html/database.sql
+mysql < "$PROJECT_DIR/database.sql"
+
+echo "==> Linking project to web root..."
+rm -rf /var/www/html
+ln -s "$PROJECT_DIR" /var/www/html
+
+echo "==> Restarting Apache..."
+apachectl restart 2>/dev/null || apache2ctl restart 2>/dev/null || true
 
 echo ""
-echo "✅ Done! Site is at http://localhost:8080"
-echo "   Admin  → admin / admin123"
-echo "   User   → alice / alice123"
+echo "✅ Done! Open port 80 to see the site."
+echo "   Admin → admin / admin123"
+echo "   User  → alice / alice123"

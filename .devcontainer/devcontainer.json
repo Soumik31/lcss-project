@@ -1,9 +1,9 @@
 {
   "name": "LCSS PHP Project",
-  "image": "mcr.microsoft.com/devcontainers/php:8.1-apache",
-  "forwardPorts": [8080],
+  "image": "webdevops/php-apache:8.1",
+  "forwardPorts": [80, 3306],
   "portsAttributes": {
-    "8080": {
+    "80": {
       "label": "Website",
       "onAutoForward": "openBrowser"
     }
@@ -11,9 +11,7 @@
   "postCreateCommand": "bash .devcontainer/setup.sh",
   "customizations": {
     "vscode": {
-      "extensions": [
-        "bmewburn.vscode-intelephense-client"
-      ]
+      "extensions": ["bmewburn.vscode-intelephense-client"]
     }
   }
 }
