@@ -1,7 +1,10 @@
 {
   "name": "LCSS PHP Project",
-  "build": {
-    "dockerfile": "Dockerfile"
+  "image": "mcr.microsoft.com/devcontainers/php:1-8.1-bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/mysql:1": {
+      "version": "8.0"
+    }
   },
   "forwardPorts": [8080],
   "portsAttributes": {
@@ -13,11 +16,7 @@
   "postCreateCommand": "bash .devcontainer/setup.sh",
   "customizations": {
     "vscode": {
-      "extensions": [
-        "bmewburn.vscode-intelephense-client",
-        "felixfbecker.php-debug"
-      ]
+      "extensions": ["bmewburn.vscode-intelephense-client"]
     }
-  },
-  "remoteUser": "vscode"
+  }
 }
