@@ -4,18 +4,6 @@ A PHP-based e-commerce web application built as part of a Master's degree projec
 
 ---
 
-## Run in GitHub Codespaces (no install needed)
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Soumik31/lcsslab.github.io)
-
-1. Click the button above (or go to the repo on GitHub → green "Code" button → "Codespaces" tab → "Create codespace")
-2. Wait ~2 minutes for the environment to build
-3. The browser will automatically open the site at `http://localhost:8080`
-
-> Free tier: 120 core-hours/month on personal GitHub accounts.
-
----
-
 ## Tech Stack
 
 - PHP (procedural + OOP)
@@ -26,86 +14,51 @@ A PHP-based e-commerce web application built as part of a Master's degree projec
 
 ---
 
-## Project Structure
+## Run Locally with XAMPP or WAMP
+
+### Step 1 — Download the project
+
+Click the green **Code** button on this page → **Download ZIP**, then extract it.
+
+Or clone it:
+```bash
+git clone https://github.com/Soumik31/lcss-project.git
+```
+
+### Step 2 — Move to your web server folder
+
+- XAMPP (Windows): `C:/xampp/htdocs/lcss-project/`
+- WAMP (Windows): `C:/wamp64/www/lcss-project/`
+- MAMP (Mac): `/Applications/MAMP/htdocs/lcss-project/`
+
+### Step 3 — Import the database
+
+1. Start Apache and MySQL from your XAMPP/WAMP control panel
+2. Open your browser and go to `http://localhost/phpmyadmin`
+3. Click **Import** → choose the file `database.sql` from this project → click **Go**
+
+### Step 4 — Open the site
 
 ```
-/
-├── index.php               # Homepage — product listing
-├── login.php               # User login
-├── registration.php        # User registration
-├── process.php             # User login handler
-├── checkout.php            # Checkout page
-├── payment.php             # Payment page
-├── contact.php             # Contact page
-├── aboutus.php             # About page
-├── laptop.php              # Laptops category
-├── phone.php               # Phones category
-├── music.php               # Music category
-├── connection.php          # Root DB connection (lcss_web_project)
-├── style.css               # Global styles
-├── database.sql            # Database setup + sample data
-│
-├── admin/                  # Admin panel
-│   ├── adminlogin.php      # Admin login page
-│   ├── process.php         # Admin login handler
-│   ├── index.php           # Admin dashboard
-│   ├── products.php        # View all products
-│   ├── add_product.php     # Add a product
-│   ├── edit_product.php    # Edit a product
-│   ├── orders.php          # View orders
-│   ├── users.php           # View registered users
-│   ├── reports.php         # Reports page
-│   ├── connection.php      # Admin DB connection (lcss_web_project)
-│   └── conn.php            # Product DB connection (productdb)
-│
-├── user/                   # Logged-in user area
-│   ├── index.php           # User homepage
-│   ├── cart.php            # Shopping cart
-│   ├── checkout.php        # User checkout
-│   ├── payment.php         # Payment processing
-│   ├── PaypalSuccess.php   # PayPal return handler
-│   ├── connection.php      # User DB connection (lcss_web_project)
-│   └── config.php          # PayPal API config
-│
-├── php/                    # DB helper classes
-│   ├── CreateDb.php        # Main product DB class
-│   ├── CreateDb_laptop.php # Laptop category query
-│   ├── CreateDb_music.php  # Music category query
-│   ├── CreateDb_phone.php  # Phone category query
-│   └── component.php       # Reusable product card HTML
-│
-├── img/                    # Product and site images
-└── upload/                 # Uploaded product images
+http://localhost/lcss-project/
+```
+
+Admin panel:
+```
+http://localhost/lcss-project/admin/adminlogin.php
 ```
 
 ---
 
-## Database Setup
+## Login Credentials
 
-The project uses two MySQL databases:
-
-| Database          | Used by                        |
-|-------------------|--------------------------------|
-| `lcss_web_project`| Users, admin accounts          |
-| `productdb`       | Products (producttb table)     |
-
-### Quick Setup
-
-1. Open **phpMyAdmin** (or your MySQL client)
-2. Import the file: `database.sql`
-3. This will create both databases, all tables, and insert sample data
-
----
-
-## Sample Data
-
-### Admin Login
+### Admin
 
 | Username | Password  |
 |----------|-----------|
 | admin    | admin123  |
 
-### Sample User Logins
+### Sample Users
 
 | Username | Password  |
 |----------|-----------|
@@ -113,7 +66,9 @@ The project uses two MySQL databases:
 | bob      | bob123    |
 | carol    | carol123  |
 
-### Sample Products (9 total)
+---
+
+## Sample Products
 
 | Category | Products |
 |----------|----------|
@@ -123,30 +78,39 @@ The project uses two MySQL databases:
 
 ---
 
-## Local Setup (XAMPP / WAMP / MAMP)
+## Project Structure
 
-1. Clone or copy the project into your web server's root folder:
-   - XAMPP: `C:/xampp/htdocs/lcss/`
-   - MAMP: `/Applications/MAMP/htdocs/lcss/`
-
-2. Start Apache and MySQL from your control panel
-
-3. Import `database.sql` via phpMyAdmin
-
-4. Open your browser and go to:
-   ```
-   http://localhost/lcss/
-   ```
-
-5. Admin panel:
-   ```
-   http://localhost/lcss/admin/adminlogin.php
-   ```
+```
+/
+├── index.php               # Homepage
+├── login.php               # User login
+├── registration.php        # User registration
+├── connection.php          # DB connection
+├── database.sql            # Database setup + sample data
+├── style.css               # Global styles
+│
+├── admin/                  # Admin panel
+│   ├── adminlogin.php      # Admin login
+│   ├── index.php           # Dashboard
+│   ├── products.php        # View products
+│   ├── add_product.php     # Add product
+│   ├── orders.php          # View orders
+│   └── users.php           # View users
+│
+├── user/                   # Logged-in user area
+│   ├── index.php           # User homepage
+│   ├── cart.php            # Shopping cart
+│   ├── checkout.php        # Checkout
+│   └── payment.php         # Payment
+│
+├── php/                    # DB helper classes
+└── img/                    # Images
+```
 
 ---
 
 ## Notes
 
-- Passwords are stored in **plaintext** — this is an academic project and not intended for production use
-- PayPal integration is configured in **sandbox mode** (`user/config.php`)
-- The project was built as a learning exercise for a Master's degree course (LCSS)
+- Passwords are stored in plaintext — this is an academic project, not for production
+- PayPal is configured in sandbox mode (`user/config.php`)
+- Built as a learning exercise for a Master's degree course (LCSS)
