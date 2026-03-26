@@ -1,16 +1,14 @@
 {
   "name": "LCSS PHP Project",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
-  "forwardPorts": [80],
+  "image": "mcr.microsoft.com/devcontainers/base:alpine",
+  "forwardPorts": [8080],
   "portsAttributes": {
-    "80": {
+    "8080": {
       "label": "Website",
       "onAutoForward": "openBrowser"
     }
   },
+  "postCreateCommand": "bash .devcontainer/setup.sh",
   "customizations": {
     "vscode": {
       "extensions": ["bmewburn.vscode-intelephense-client"]
